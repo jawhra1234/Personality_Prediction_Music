@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Results</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>🧠 Personality Summary</h1>
+
+    {% for trait, val in predictions.items() %}
+      <div class="trait-card">
+        <h2>{{ trait }} → {{ val }}</h2>
+        <p><strong>{{ summary[trait]['level'] }}</strong>: {{ summary[trait]['desc'] }}</p>
+      </div>
+    {% endfor %}
+
+    <a href="/">🔙 Predict Again</a>
+  </div>
+</body>
+</html>
