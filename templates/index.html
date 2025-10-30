@@ -1,100 +1,51 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8" />
     <title>🧠 Personality Trait Predictor</title>
-    <style>
-        body {
-            background-color: #121212;
-            color: #fff;
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-            padding-top: 60px;
-        }
-        .container {
-            background-color: #1e1e1e;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-            width: 420px;
-        }
-        h1 {
-            text-align: center;
-            color: #ff69b4;
-        }
-        label {
-            display: block;
-            margin-top: 10px;
-            font-weight: bold;
-        }
-        input {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            border: none;
-            border-radius: 6px;
-        }
-        small {
-            color: #bbb;
-            font-size: 12px;
-        }
-        button {
-            width: 100%;
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #ff69b4;
-            border: none;
-            color: white;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #ff1493;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1>🧠 Personality Trait Predictor</h1>
-        <form action="/predict" method="post">
+    <div class="center-wrapper">
+        <div class="container card">
+            <h1>🧠 Personality Trait Predictor</h1>
+            <form action="/predict" method="post" class="form-grid">
 
-            <label>Respectfulness (0–1)</label>
-            <input type="number" name="respectfulness" step="0.01" placeholder="e.g., 0.66" required>
-            <small>How respectful and polite you generally are toward others.</small>
+                <label>Respectfulness (0–1)</label>
+                <input type="number" name="respectfulness" step="0.01" placeholder="e.g., 0.66" required>
+                <small>How respectful and polite you generally are toward others.</small>
 
-            <label>Openness Group (Low=1, else 0)</label>
-            <input type="number" name="Openness_group_Low" min="0" max="1" placeholder="e.g., 1" required>
-            <small>1 if you prefer familiar ideas and routines; 0 if you enjoy creativity and new experiences.</small>
+                <label>Openness Group (Low=1, else 0)</label>
+                <input type="number" name="Openness_group_Low" min="0" max="1" placeholder="e.g., 1" required>
+                <small>1 if you prefer familiar ideas and routines; 0 if you enjoy creativity and new experiences.</small>
 
-            <label>Extraversion Group (Low=1, else 0)</label>
-            <input type="number" name="Extraversion_group_Low" min="0" max="1" placeholder="e.g., 0" required>
-            <small>1 if you are more quiet and reserved; 0 if you’re outgoing and social.</small>
+                <label>Extraversion Group (Low=1, else 0)</label>
+                <input type="number" name="Extraversion_group_Low" min="0" max="1" placeholder="e.g., 0" required>
+                <small>1 if you are more quiet and reserved; 0 if you’re outgoing and social.</small>
 
-            <label>Agreeableness Group (Low=1, else 0)</label>
-            <input type="number" name="Agreeableness_group_Low" min="0" max="1" placeholder="e.g., 1" required>
-            <small>1 if you’re more direct and competitive; 0 if you’re kind and cooperative.</small>
+                <label>Agreeableness Group (Low=1, else 0)</label>
+                <input type="number" name="Agreeableness_group_Low" min="0" max="1" placeholder="e.g., 1" required>
+                <small>1 if you’re more direct and competitive; 0 if you’re kind and cooperative.</small>
 
-            <label>Conscientiousness Group (Low=1, else 0)</label>
-            <input type="number" name="Conscientiousness_group_Low" min="0" max="1" placeholder="e.g., 0" required>
-            <small>1 if you’re more easy-going; 0 if you’re organized and responsible.</small>
+                <label>Conscientiousness Group (Low=1, else 0)</label>
+                <input type="number" name="Conscientiousness_group_Low" min="0" max="1" placeholder="e.g., 0" required>
+                <small>1 if you’re more easy-going; 0 if you’re organized and responsible.</small>
 
-            <label>Compassion (0–1)</label>
-            <input type="number" name="compassion" step="0.01" placeholder="e.g., 0.72" required>
-            <small>How empathetic and caring you are toward others.</small>
+                <label>Compassion (0–1)</label>
+                <input type="number" name="compassion" step="0.01" placeholder="e.g., 0.72" required>
+                <small>How empathetic and caring you are toward others.</small>
 
-            <label>Neuroticism Group (Low=1, else 0)</label>
-            <input type="number" name="Neuroticism_group_Low" min="0" max="1" placeholder="e.g., 0" required>
-            <small>1 if you stay calm under stress; 0 if you tend to worry easily.</small>
+                <label>Neuroticism Group (Low=1, else 0)</label>
+                <input type="number" name="Neuroticism_group_Low" min="0" max="1" placeholder="e.g., 0" required>
+                <small>1 if you stay calm under stress; 0 if you tend to worry easily.</small>
 
-            <label>Emotional Volatility (0–1)</label>
-            <input type="number" name="emotional_volatility" step="0.01" placeholder="e.g., 0.45" required>
-            <small>How quickly your emotions change or react to situations.</small>
+                <label>Emotional Volatility (0–1)</label>
+                <input type="number" name="emotional_volatility" step="0.01" placeholder="e.g., 0.45" required>
+                <small>How quickly your emotions change or react to situations.</small>
 
-            <button type="submit">Predict Personality</button>
-        </form>
+                <button type="submit" class="btn-primary">Predict Personality</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>

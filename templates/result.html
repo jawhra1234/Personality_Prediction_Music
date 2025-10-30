@@ -1,22 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Results</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="utf-8" />
+    <title>🎯 Personality Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <div class="container">
-    <h1>🧠 Personality Summary</h1>
+    <div class="center-wrapper">
+        <div class="container card">
+            <h1>🎯 Predicted Personality Traits</h1>
 
-    {% for trait, val in predictions.items() %}
-      <div class="trait-card">
-        <h2>{{ trait }} → {{ val }}</h2>
-        <p><strong>{{ summary[trait]['level'] }}</strong>: {{ summary[trait]['desc'] }}</p>
-      </div>
-    {% endfor %}
+            <div class="traits-grid">
+                {% for trait, info in summary.items() %}
+                <div class="trait-card">
+                    <h3>{{ trait }}</h3>
+                    <p class="score">Score: {{ preds[trait] }}</p>
+                    <p class="level">{{ info.level if info.level is defined else info['level'] if info['level'] is defined else info['level'] }}</p>
+                    <p class="desc">{{ info.desc if info.desc is defined else info['desc'] if info['desc'] is defined else info['desc'] }}</p>
+                </div>
+                {% endfor %}
+            </div>
 
-    <a href="/">🔙 Predict Again</a>
-  </div>
+            <form action="/recommend" method="post" style="margin-top:20px;">
+                {% for trait, val in preds.items() %}
+                  <input type="hidden" name="{{ trait }}" value="{{ val }}">
+                {% endfor %}
+                <button type="submit" class="btn-accent">🎵 Recommend Songs</button>
+            </form>
+
+            <a href="/" class="btn-link">⟲ Predict Again</a>
+        </div>
+    </div>
 </body>
 </html>

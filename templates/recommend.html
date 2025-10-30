@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>🎵 Recommended Songs</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="center-wrapper">
+        <div class="container card">
+            <h1>🎧 Your Personalized Songs</h1>
+
+            <div class="cards-grid">
+                {% for song in songs %}
+                <div class="song-card">
+                    <div class="song-info">
+                        <div class="song-name">{{ song['name'] }}</div>
+                        <div class="song-artist">{{ song['artists'] }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div style="display:flex; gap:12px; justify-content:center; margin-top:20px;">
+                <a class="btn-link" href="/">⬅️ Home</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
