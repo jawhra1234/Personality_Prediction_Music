@@ -1,49 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <title>🧠 Personality Trait Predictor</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧠 Personality Trait Predictor | Music Recommender</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <div class="center-wrapper">
         <div class="container card">
             <h1>🧠 Personality Trait Predictor</h1>
+            <p style="text-align: center; color: var(--text-secondary); margin-bottom: 32px; font-size: 15px;">
+                Discover your personality traits and get personalized music recommendations
+            </p>
+            
             <form action="/predict" method="post" class="form-grid">
 
-                <label>Respectfulness (0–1)</label>
-                <input type="number" name="respectfulness" step="0.01" placeholder="e.g., 0.66" required>
-                <small>How respectful and polite you generally are toward others.</small>
+                <div class="input-group">
+                    <label>Respectfulness</label>
+                    <input type="number" name="respectfulness" step="0.01" min="0" max="1" placeholder="0.66" required>
+                    <small>How respectful and polite you generally are toward others (0.0 - 1.0)</small>
+                </div>
 
-                <label>Openness Group (Low=1, else 0)</label>
-                <input type="number" name="Openness_group_Low" min="0" max="1" placeholder="e.g., 1" required>
-                <small>1 if you prefer familiar ideas and routines; 0 if you enjoy creativity and new experiences.</small>
+                <div class="input-group">
+                    <label>Openness Level</label>
+                    <input type="number" name="Openness_group_Low" min="0" max="1" placeholder="1 or 0" required>
+                    <small>1 = You prefer familiar ideas and routines | 0 = You enjoy creativity and new experiences</small>
+                </div>
 
-                <label>Extraversion Group (Low=1, else 0)</label>
-                <input type="number" name="Extraversion_group_Low" min="0" max="1" placeholder="e.g., 0" required>
-                <small>1 if you are more quiet and reserved; 0 if you’re outgoing and social.</small>
+                <div class="input-group">
+                    <label>Extraversion Level</label>
+                    <input type="number" name="Extraversion_group_Low" min="0" max="1" placeholder="1 or 0" required>
+                    <small>1 = You are more quiet and reserved | 0 = You're outgoing and social</small>
+                </div>
 
-                <label>Agreeableness Group (Low=1, else 0)</label>
-                <input type="number" name="Agreeableness_group_Low" min="0" max="1" placeholder="e.g., 1" required>
-                <small>1 if you’re more direct and competitive; 0 if you’re kind and cooperative.</small>
+                <div class="input-group">
+                    <label>Agreeableness Level</label>
+                    <input type="number" name="Agreeableness_group_Low" min="0" max="1" placeholder="1 or 0" required>
+                    <small>1 = You're more direct and competitive | 0 = You're kind and cooperative</small>
+                </div>
 
-                <label>Conscientiousness Group (Low=1, else 0)</label>
-                <input type="number" name="Conscientiousness_group_Low" min="0" max="1" placeholder="e.g., 0" required>
-                <small>1 if you’re more easy-going; 0 if you’re organized and responsible.</small>
+                <div class="input-group">
+                    <label>Conscientiousness Level</label>
+                    <input type="number" name="Conscientiousness_group_Low" min="0" max="1" placeholder="1 or 0" required>
+                    <small>1 = You're more easy-going and spontaneous | 0 = You're organized and responsible</small>
+                </div>
 
-                <label>Compassion (0–1)</label>
-                <input type="number" name="compassion" step="0.01" placeholder="e.g., 0.72" required>
-                <small>How empathetic and caring you are toward others.</small>
+                <div class="input-group">
+                    <label>Compassion</label>
+                    <input type="number" name="compassion" step="0.01" min="0" max="1" placeholder="0.72" required>
+                    <small>How empathetic and caring you are toward others (0.0 - 1.0)</small>
+                </div>
 
-                <label>Neuroticism Group (Low=1, else 0)</label>
-                <input type="number" name="Neuroticism_group_Low" min="0" max="1" placeholder="e.g., 0" required>
-                <small>1 if you stay calm under stress; 0 if you tend to worry easily.</small>
+                <div class="input-group">
+                    <label>Neuroticism Level</label>
+                    <input type="number" name="Neuroticism_group_Low" min="0" max="1" placeholder="1 or 0" required>
+                    <small>1 = You stay calm under stress | 0 = You tend to worry easily</small>
+                </div>
 
-                <label>Emotional Volatility (0–1)</label>
-                <input type="number" name="emotional_volatility" step="0.01" placeholder="e.g., 0.45" required>
-                <small>How quickly your emotions change or react to situations.</small>
+                <div class="input-group">
+                    <label>Emotional Volatility</label>
+                    <input type="number" name="emotional_volatility" step="0.01" min="0" max="1" placeholder="0.45" required>
+                    <small>How quickly your emotions change or react to situations (0.0 - 1.0)</small>
+                </div>
 
-                <button type="submit" class="btn-primary">Predict Personality</button>
+                <button type="submit" class="btn-primary">
+                    🎯 Analyze My Personality
+                </button>
             </form>
         </div>
     </div>
