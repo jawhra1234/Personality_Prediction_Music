@@ -7,6 +7,13 @@ import os
 
 app = Flask(__name__)
 
+import urllib.parse
+
+def youtube_link(song_name, artist):
+    query = f"{song_name} {artist}"
+    return f"https://www.youtube.com/results?search_query={urllib.parse.quote(query)}"
+
+
 # --- Load all 5 trained models ---
 traits = ['Extraversion', 'Agreeableness', 'Conscientiousness', 'Neuroticism', 'Openness']
 models = {}
@@ -23,7 +30,7 @@ if not os.path.exists(music_csv):
     raise FileNotFoundError(f"Music dataset not found: {music_csv}")
 
 df = pd.read_csv(music_csv)
-# require these columns in dataset
+# Require these columns in dataset
 features = ['danceability', 'energy', 'valence', 'acousticness', 'instrumentalness', 'tempo']
 missing_feats = [c for c in features if c not in df.columns]
 if missing_feats:
@@ -39,7 +46,9 @@ def predict_personality(sample_input):
     """
     results = {}
     for t, model in models.items():
-        pred = model.predict(sample_input)[0]
+        # Ensure the input matches the model’s training feature order
+        model_input = sample_input[model.feature_names_in_]
+        pred = model.predict(model_input)[0]
         results[t] = round(float(pred), 3)
     return results
 
@@ -89,7 +98,6 @@ def personality_to_song_score(personality, song_row):
     song_row: pandas Series with feature columns present
     returns numeric score (higher -> better match)
     """
-    # Use features as-is. If values are not normalized, formula still works comparably
     return (
         personality['Extraversion'] * (song_row['energy'] + song_row['danceability']) / 2.0
         + personality['Agreeableness'] * (song_row['valence'] + song_row['acousticness']) / 2.0
@@ -103,10 +111,8 @@ def recommend_songs(personality, df_all, top_k=50, sample_n=5):
     df_copy['score'] = df_copy.apply(lambda r: personality_to_song_score(personality, r), axis=1)
     df_sorted = df_copy.sort_values(by='score', ascending=False).reset_index(drop=True)
     top_pool = df_sorted.head(top_k)
-    # sample_n from top_pool for variety
     sample_n = min(sample_n, len(top_pool))
     recommended = top_pool.sample(sample_n, random_state=random.randint(1, 10000))
-    # ensure predictable ordering in display: by score desc
     recommended = recommended.sort_values(by='score', ascending=False).reset_index(drop=True)
     return recommended
 
@@ -119,9 +125,14 @@ def home():
 def predict():
     # Collect input values in the exact order your model expects
     top_features_new = [
-        "respectfulness", "Openness_group_Low", "Extraversion_group_Low",
-        "Agreeableness_group_Low", "Conscientiousness_group_Low",
-        "compassion", "Neuroticism_group_Low", "emotional_volatility"
+        'Openness_group_Low',
+        'Conscientiousness_group_Low',
+        'Agreeableness_group_Low',
+        'respectfulness',
+        'Neuroticism_group_Low',
+        'compassion',
+        'emotional_volatility',
+        'Extraversion_group_Low'
     ]
     try:
         data = []
@@ -134,19 +145,23 @@ def predict():
 
         preds = predict_personality(sample_input)
         summary = interpret_personality(preds)
-        # render result page with both numeric preds and human-readable summary
         return render_template('result.html', preds=preds, summary=summary)
     except Exception as e:
         return f"Error during prediction: {e}", 500
 
 @app.route('/recommend', methods=['POST'])
 def recommend():
-    # Personality values are passed as hidden fields from result page
     try:
         personality = {t: float(request.form.get(t, 0.0)) for t in traits}
         recs = recommend_songs(personality, df, top_k=50, sample_n=5)
-        # pass recs (DataFrame) to template; to simplify Jinja iteration, convert to records
-        records = recs[['name', 'artists', 'score']].to_dict(orient='records')
+        records = []
+        for _, row in recs.iterrows():
+            records.append({
+        "name": row['name'],
+        "artists": row['artists'],
+        "score": row['score'],
+        "youtube": youtube_link(row['name'], row['artists'])
+            })
         return render_template('recommend.html', songs=records)
     except Exception as e:
         return f"Error during recommendation: {e}", 500

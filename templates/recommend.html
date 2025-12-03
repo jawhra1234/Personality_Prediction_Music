@@ -16,6 +16,12 @@
                     <div class="song-info">
                         <div class="song-name">{{ song['name'] }}</div>
                         <div class="song-artist">{{ song['artists'] }}</div>
+
+                        <!-- YouTube Link -->
+                        <a href="{{ song['youtube'] }}" target="_blank" 
+                           class="btn-link" style="margin-top: 8px; display:inline-block;">
+                            ▶️ Watch on YouTube
+                        </a>
                     </div>
                 </div>
                 {% endfor %}
