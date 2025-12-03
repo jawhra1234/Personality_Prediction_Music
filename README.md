@@ -245,6 +245,10 @@ Multiple visualization files are included showing:
 - Music-personality relationships
 - Temporal trends in music preferences
 - Emotional features analysis
+  
+## 🚀 Live Demo  
+👉 [Click here to use the Personality Prediction App](https://personality-prediction-music-2.onrender.com/)
+ 
 
 ## 🤝 Contributing
 
